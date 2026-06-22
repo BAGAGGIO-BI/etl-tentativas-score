@@ -7,4 +7,6 @@ __pycache__/
 *.pyc
 
 EDA/
-.csv
+*.csv
+logs/
+*.log

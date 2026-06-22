@@ -1,13 +1,19 @@
 import os
+import logging
 import urllib
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
+
+
+logger = logging.getLogger(__name__)
 
 # 1. Configuração do Ambiente ---------------------------------------------------------
 
 def config():
 
     server, database, user, password, driver = config_dotenv()
+
+    logger.info("Configurando conexão com o banco: server=%s, database=%s, driver=%s.", server, database, driver)
 
     # Monta a string ODBC de forma segura
     odbc_str = (
@@ -29,6 +35,8 @@ def config():
 
     testeConexao(engine)
 
+    logger.info("Engine do banco configurada com sucesso.")
+
     return engine
 
 # 2. Funções Auxiliares de Conexão e Inserção -----------------------------------------
@@ -39,9 +47,9 @@ def testeConexao(engine):
         # Testar Conexão (Query teste)
         with engine.connect() as conn:
             conn.execute(text("SELECT 1")).fetchone()
-        print("\n- Conexão teste OK.")
+        logger.info("Conexão teste OK.")
     except Exception as e:
-        print("- Falha ao conectar no banco:", e, "\n")
+        logger.exception("Falha ao conectar no banco.")
         raise
 
 # 2.2. Configuração do Ambiente a partir do .env --------------------------------------
@@ -59,6 +67,7 @@ def config_dotenv():
 
     # Tratamento de Erro para a Conexão com o Banco
     if not all([server, database, user, password]):
+        logger.error("Sem variáveis de conexão. Verifique .env ou variáveis de ambiente.")
         raise EnvironmentError(
             "- Sem Variáveis de Conexão. Verifique .env ou variáveis de ambiente.\n"
         )
