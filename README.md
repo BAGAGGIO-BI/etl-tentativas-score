@@ -59,8 +59,19 @@ TABLE_TENTATIVAS=
 
 Para executar o ETL:
 
+1. Iniciar o venv
+```bash
+.venv\Scripts\activate
+```
+
+2. Rodar o script main
 ```bash
 python main.py
+```
+
+3. Desativar o venv ao fim da execução
+```bash
+deactivate
 ```
 
 ## O que o tratamento faz
