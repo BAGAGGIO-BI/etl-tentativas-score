@@ -64,6 +64,12 @@ Para executar o ETL:
 .venv\Scripts\activate
 ```
 
+Caso seja a primeira vez rodando, instale as dependências
+
+```bash
+pip install -r requirements.txt
+```
+
 2. Rodar o script main
 ```bash
 python main.py

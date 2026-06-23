@@ -1,9 +1,10 @@
 import logging
 
-from service.tratamento import tratamento_base
-from utils.conexao import config
-from utils.logging_config import configure_logging
-from loader.carga import insert_bd
+from src.pipeline.extraction import importa_csv
+from src.pipeline.transformation import tratamento_base
+from src.config.database import config
+from src.config.logger import configure_logging
+from src.pipeline.loading import insert_bd
 
 
 logger = logging.getLogger(__name__)
@@ -11,7 +12,10 @@ logger = logging.getLogger(__name__)
 def etl_tentativas():
     logger.info("Iniciando ETL de tentativas.")
 
-    df = tratamento_base()
+    df = importa_csv()
+    logger.info("Arquivo carregado com %s linhas e %s colunas.", *df.shape)
+
+    df = tratamento_base(df)
     logger.info("Tratamento concluído com %s registros.", len(df))
 
     engine = config()
