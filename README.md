@@ -8,11 +8,12 @@ O arquivo deve ser exportado do App Dito na Aba de 'Resultado das Metas', aplica
 
 O fluxo principal do projeto é:
 
-1. Ler o arquivo CSV de origem em `base-csv/`.
-2. Aplicar tratamentos e padronizações nas colunas.
-3. Montar a conexão com o banco de dados usando variáveis de ambiente.
-4. Limpar a tabela de destino.
-5. Inserir os dados tratados no banco.
+1. Exportar o arquivo pelo App Dito.
+2. Ler o arquivo em `data/`.
+3. Aplicar tratamentos e padronizações nas colunas.
+4. Montar a conexão com o banco de dados usando variáveis de ambiente.
+5. Limpar a tabela de destino.
+6. Inserir os dados tratados no banco.
 
 ## Estrutura do projeto
 
@@ -80,6 +81,20 @@ python main.py
 deactivate
 ```
 
+## O que a extração faz
+
+- Entra no Dito em um perfil próprio para automação.
+- Filtra as datas de início e fim com as seguintes regras :
+    - Data de Início : Fixo no dia 26 do mês anterior.
+    - Data de Fim : Caso seja antes do dia 26, pega o dia anterior. Caso seja após o dia 26, pega fixo o dia 25 do mês atual.    
+- Exporta o relatório de "Resultado das Metas" agrupado por Vendedor.
+- Salva o arquivo `.csv` na pasta de destino `data/`
+
+### Observação
+O scraping de extração dos dados do Dito utiliza uma context page que aponta para o perfil dedicado à automações. Este perfil guarda a sessão no Dito e serve para evitar o login por MFa que impossibilitaria a automação. A sessão no Dito desloga a cada 3 meses e precisa ser reiniciada manualmente com e-mail, senha e MFA via autenticador.
+
+Existe um serviço de e-mail neste fluxo que envia uma mensagem de erro para `gustavo.azevedo@bagaggio.com.br` caso o perfil esteja deslogado. O código roda com a biblioteca `pythoncom` e não é ideal para projetos profissionais e de larga escala. No momento, esta é uma solução provisória.
+
 ## O que o tratamento faz
 
 - Renomeia e padroniza o nome das colunas do CSV, transformando todas em maiúsculas.
@@ -104,8 +119,8 @@ O arquivo `.csv` bruto que foi exportado da Dito deverá contar com a seguinte e
 
 Atenção aos seguintes pontos : 
 
-- 
-- A porcentagem da meta atingida poderá ser maior do que 100% (como sinalizado na Tabela acima), porém o valor normal geralmente é menor do que 100%.
+- A quantidade de caracteres para as colunas de `id_loja` e `id_vendedor` deve ser igual à apresentada na tabela de exemplo acima.
+- A porcentagem da meta atingida poderá ser maior do que 100%, como sinalizado na Tabela acima. Porém o valor normal geralmente é menor do que 100%.
 
 ## Estrutura da tabela de destino
 
