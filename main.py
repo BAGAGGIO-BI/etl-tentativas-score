@@ -5,12 +5,16 @@ from src.pipeline.transformation import tratamento_base
 from src.config.database import config
 from src.config.logger import configure_logging
 from src.pipeline.loading import insert_bd
-
+from src.scraping.exportacao_dito import exporta_csv
 
 logger = logging.getLogger(__name__)
 
 def etl_tentativas():
     logger.info("Iniciando ETL de tentativas.")
+
+    logger.info("Iniciando processo de extração dos dados pela plataforma do App Dito.")
+    exporta_csv()
+    logger.info("Exportação concluída.")
 
     df = importa_csv()
     logger.info("Arquivo carregado com %s linhas e %s colunas.", *df.shape)
