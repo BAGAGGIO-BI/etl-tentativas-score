@@ -81,6 +81,9 @@ python main.py
 deactivate
 ```
 
+### Atenção
+Por conta do scraping com perfil de automação do chrome com persistência de cookides e de sessão, é recomendado que sejam fechadas todas as janelas de execução do chrome antes de rodar a automação a seguir. Isso garante que os dados possam ser extraídos sem travar o scraping.
+
 ## O que a extração faz
 
 - Entra no Dito em um perfil próprio para automação.
