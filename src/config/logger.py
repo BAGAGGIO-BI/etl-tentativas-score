@@ -3,6 +3,8 @@ import os
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
+from src.config.app_settings import load_app_settings
+
 
 _LOGGING_CONFIGURED = False
 
@@ -14,6 +16,8 @@ def configure_logging():
 
     if _LOGGING_CONFIGURED:
         return logging.getLogger()
+
+    settings = load_app_settings()
 
     log_level_name = os.getenv("LOG_LEVEL", "INFO").upper()
     log_level = getattr(logging, log_level_name, logging.INFO)
@@ -28,7 +32,7 @@ def configure_logging():
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(formatter)
 
-    log_dir = Path(os.getenv("LOG_DIR", "logs"))
+    log_dir = Path(settings["log_dir"])
     log_dir.mkdir(parents=True, exist_ok=True)
 
     file_handler = RotatingFileHandler(

@@ -2,7 +2,8 @@ import os
 import logging
 import urllib
 from sqlalchemy import create_engine, text
-from dotenv import load_dotenv
+
+from src.config.app_settings import load_app_settings
 
 
 logger = logging.getLogger(__name__)
@@ -56,7 +57,7 @@ def testeConexao(engine):
 def config_dotenv():
 
     # Carrega os Dados da .env em variáveis
-    load_dotenv(".env")
+    load_app_settings()
 
     # Associa as variáveis de ambiente com as variáveis locais
     server      = os.getenv("DB_SERVER")

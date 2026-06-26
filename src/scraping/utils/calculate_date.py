@@ -1,4 +1,8 @@
+import logging
 from datetime import datetime, timedelta
+
+
+logger = logging.getLogger(__name__)
 
 def calcular_datas():
     # Data Inicio (Dia 26 do mês passado) no formato 'YYYY-MM-DD'
@@ -14,7 +18,6 @@ def calcular_datas():
     else:
         dt_fim = (datetime.now()).replace(day=26).strftime('%Y-%m-%d')
 
-    print(f"Data de Início: \t{dt_inicio}")
-    print(f"Data de Fim: \t\t{dt_fim}")
+    logger.info("Intervalo calculado para exportação: inicio=%s fim=%s", dt_inicio, dt_fim)
 
     return dt_inicio, dt_fim
