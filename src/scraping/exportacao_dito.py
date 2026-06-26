@@ -6,9 +6,9 @@ from src.scraping.browser.playwright_manager import BrowserManager
 from src.scraping.utils.calculate_date import calcular_datas
 from src.scraping.services.email.email_service import EmailService
 
-
 logger = logging.getLogger(__name__)
 SETTINGS = load_app_settings()
+
 
 def exporta_csv():
     logger.info("Iniciando etapa de scraping do App Dito.")
@@ -29,7 +29,9 @@ def exporta_csv():
             logger.info("Status da sessão: ativa.")
         else:
             logger.warning("Status da sessão: inativa.")
-            logger.warning("A página exibiu a div login-box, indicando que a sessão foi deslogada.")
+            logger.warning(
+                "A página exibiu a div login-box, indicando que a sessão foi deslogada."
+            )
             email_service = EmailService()
             email_service.enviar_email_teste(SETTINGS["alert_email"])
             logger.info("Email de teste enviado para %s.", SETTINGS["alert_email"])
@@ -68,6 +70,7 @@ def exporta_csv():
 
         browser.close()
         logger.info("Navegador finalizado.")
-        
+
+
 if __name__ == "__main__":
     exporta_csv()

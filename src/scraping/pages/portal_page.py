@@ -2,9 +2,9 @@ import logging
 
 from src.config.app_settings import load_app_settings
 
-
 logger = logging.getLogger(__name__)
 SETTINGS = load_app_settings()
+
 
 class PortalPage:
 
@@ -18,7 +18,9 @@ class PortalPage:
 
     def aguardar_estado_inicial(self, timeout_ms=15000):
         logger.debug("Aguardando estado inicial do portal.")
-        self.page.wait_for_selector("div.login-box, button.ant-btn-block", state="visible", timeout=timeout_ms)
+        self.page.wait_for_selector(
+            "div.login-box, button.ant-btn-block", state="visible", timeout=timeout_ms
+        )
 
     def sessao_ativa(self):
         return self.page.locator("div.login-box").count() == 0
@@ -28,7 +30,7 @@ class PortalPage:
 
         # Clica na classe com a class = "ant-picker-input-active"
         self.page.locator(".ant-picker-input-active").click()
-        
+
         # Clica no td com o title contém a data de início
         self.page.locator(f"td[title='{dt_inicio}']").click()
 

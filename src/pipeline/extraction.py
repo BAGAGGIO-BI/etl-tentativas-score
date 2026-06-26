@@ -6,6 +6,7 @@ logger = logging.getLogger(__name__)
 
 # -------------------------------------------------------------------------------------
 
+
 # Etapa 1 - Importação do CSV
 def importa_csv():
     csv_path = Path(__file__).resolve().parents[2] / "data" / "tentativas-dito.csv"
@@ -47,5 +48,6 @@ def importa_csv():
     except Exception:
         logger.exception("Falha ao importar o CSV de origem.")
         raise
+
 
 # -------------------------------------------------------------------------------------

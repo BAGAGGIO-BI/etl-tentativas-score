@@ -9,6 +9,7 @@ from src.scraping.exportacao_dito import exporta_csv
 
 logger = logging.getLogger(__name__)
 
+
 def etl_tentativas():
     logger.info("Iniciando ETL de tentativas.")
 
@@ -26,6 +27,7 @@ def etl_tentativas():
     insert_bd(engine, df)
 
     logger.info("ETL finalizado com sucesso.")
+
 
 if __name__ == "__main__":
     configure_logging()

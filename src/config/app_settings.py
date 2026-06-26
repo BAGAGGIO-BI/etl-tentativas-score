@@ -26,6 +26,10 @@ def load_app_settings():
         ),
         "chrome_channel": os.getenv("CHROME_CHANNEL", "chrome"),
         "chrome_headless": os.getenv("CHROME_HEADLESS", "false").lower() == "true",
-        "download_filename": os.getenv("SCRAPING_DOWNLOAD_FILENAME", "tentativas-dito.csv"),
-        "alert_email": os.getenv("SCRAPING_ALERT_EMAIL", "gustavo.azevedo@bagaggio.com.br"),
+        "download_filename": os.getenv(
+            "SCRAPING_DOWNLOAD_FILENAME", "tentativas-dito.csv"
+        ),
+        "alert_email": os.getenv(
+            "SCRAPING_ALERT_EMAIL", "gustavo.azevedo@bagaggio.com.br"
+        ),
     }

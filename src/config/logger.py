@@ -5,7 +5,6 @@ from pathlib import Path
 
 from src.config.app_settings import load_app_settings
 
-
 _LOGGING_CONFIGURED = False
 
 # -------------------------------------------------------------------------------------
@@ -49,5 +48,6 @@ def configure_logging():
     _LOGGING_CONFIGURED = True
 
     return root_logger
+
 
 # -------------------------------------------------------------------------------------

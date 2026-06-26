@@ -4,10 +4,10 @@ import logging
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-
 logger = logging.getLogger(__name__)
 
 # 1. Inserção no Banco de Dados -------------------------------------------------------
+
 
 # 1.1 - Estabelece a conexão e insere os Dados tratados no banco
 def insert_bd(engine, df):
@@ -27,7 +27,7 @@ def insert_bd(engine, df):
             # 1 - Checar se tabela existe
             exists = table_exists(engine, TABLE)
 
-            # 2 - Checar quantidade de registros 
+            # 2 - Checar quantidade de registros
             if exists:
                 qtd = conn.execute(text(f"SELECT COUNT(1) FROM {TABLE}")).scalar()
 
@@ -38,12 +38,17 @@ def insert_bd(engine, df):
                         truncate_table(conn, TABLE)
                     except Exception as e_trunc:
 
-                        logger.warning("Falha ao truncar a tabela %s. Tentando fallback com DELETE.", TABLE)
+                        logger.warning(
+                            "Falha ao truncar a tabela %s. Tentando fallback com DELETE.",
+                            TABLE,
+                        )
 
                         try:
                             delete_table(conn, TABLE)
                         except Exception as e_delete:
-                            logger.exception("Falha ao deletar os registros da tabela %s.", TABLE)
+                            logger.exception(
+                                "Falha ao deletar os registros da tabela %s.", TABLE
+                            )
                             raise
             else:
                 logger.warning("Tabela %s não existe.", TABLE)
@@ -72,10 +77,12 @@ def insert_bd(engine, df):
 
 # Funções Auxiliares para Validação, Truncate e Insert
 
+
 # Verifica se a tabela existe no banco DADOS_EXCEL
 def table_exists(engine, table_name):
     with engine.connect() as conn:
         return engine.dialect.has_table(conn, table_name)
+
 
 # Trunca a tabela (caso exista e tenha registros) para evitar duplicidade
 def truncate_table(conn, table_name):
@@ -83,14 +90,16 @@ def truncate_table(conn, table_name):
     conn.execute(text(f"TRUNCATE TABLE {table_name}"))
     logger.info("TRUNCATE concluído em %s.", table_name)
 
+
 # Fallback: Deleta todos os registros da tabela (caso exista) para evitar duplicidade
 def delete_table(conn, table_name):
     logger.info("Executando DELETE FROM em %s.", table_name)
     conn.execute(text(f"DELETE FROM {table_name}"))
     logger.info("DELETE concluído em %s.", table_name)
 
+
 # Insere os dados tratados no banco utilizando pandas.to_sql (método append)
-def insert_table(df, table_name, engine): 
+def insert_table(df, table_name, engine):
     logger.info("Inserindo os dados tratados no banco na tabela %s.", table_name)
     df.to_sql(
         name=table_name,
@@ -98,7 +107,8 @@ def insert_table(df, table_name, engine):
         schema="dbo",
         if_exists="append",
         index=False,
-        chunksize=200
+        chunksize=200,
     )
+
 
 # -------------------------------------------------------------------------------------

@@ -26,8 +26,8 @@ class EmailService:
         self.enviar_email(
             destinatario=destinatario,
             assunto="Erro Automação Tentativas Score",
-            corpo="Olá, o script de automação de tentativas score detectou um erro na camada de extração: A sessão do usuário foi deslogada." \
-            "\n\nPor favor, verifique o acesso e realize o login manualmente." \
-            "\n\nAtenciosamente," \
+            corpo="Olá, o script de automação de tentativas score detectou um erro na camada de extração: A sessão do usuário foi deslogada."
+            "\n\nPor favor, verifique o acesso e realize o login manualmente."
+            "\n\nAtenciosamente,"
             "\nAutomações Bahia",
         )

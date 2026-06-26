@@ -5,16 +5,21 @@ from sqlalchemy import create_engine, text
 
 from src.config.app_settings import load_app_settings
 
-
 logger = logging.getLogger(__name__)
 
 # 1. Configuração do Ambiente ---------------------------------------------------------
+
 
 def config():
 
     server, database, user, password, driver = config_dotenv()
 
-    logger.info("Configurando conexão com o banco: server=%s, database=%s, driver=%s.", server, database, driver)
+    logger.info(
+        "Configurando conexão com o banco: server=%s, database=%s, driver=%s.",
+        server,
+        database,
+        driver,
+    )
 
     # Monta a string ODBC de forma segura
     odbc_str = (
@@ -40,7 +45,9 @@ def config():
 
     return engine
 
+
 # 2. Funções Auxiliares de Conexão e Inserção -----------------------------------------
+
 
 # 2.1. Teste de Conexão com o Banco (antes de INSERT ou TRUNCATE) ---------------------
 def testeConexao(engine):
@@ -53,6 +60,7 @@ def testeConexao(engine):
         logger.exception("Falha ao conectar no banco.")
         raise
 
+
 # 2.2. Configuração do Ambiente a partir do .env --------------------------------------
 def config_dotenv():
 
@@ -60,19 +68,22 @@ def config_dotenv():
     load_app_settings()
 
     # Associa as variáveis de ambiente com as variáveis locais
-    server      = os.getenv("DB_SERVER")
-    database    = os.getenv("DB_DATABASE")
-    user        = os.getenv("DB_USER")
-    password    = os.getenv("DB_PASSWORD")
-    driver      = os.getenv("DB_DRIVER", "ODBC Driver 17 for SQL Server")
+    server = os.getenv("DB_SERVER")
+    database = os.getenv("DB_DATABASE")
+    user = os.getenv("DB_USER")
+    password = os.getenv("DB_PASSWORD")
+    driver = os.getenv("DB_DRIVER", "ODBC Driver 17 for SQL Server")
 
     # Tratamento de Erro para a Conexão com o Banco
     if not all([server, database, user, password]):
-        logger.error("Sem variáveis de conexão. Verifique .env ou variáveis de ambiente.")
+        logger.error(
+            "Sem variáveis de conexão. Verifique .env ou variáveis de ambiente."
+        )
         raise EnvironmentError(
             "- Sem Variáveis de Conexão. Verifique .env ou variáveis de ambiente.\n"
         )
 
     return server, database, user, password, driver
+
 
 # -------------------------------------------------------------------------------------

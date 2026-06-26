@@ -4,8 +4,8 @@ from playwright.sync_api import sync_playwright
 
 from src.config.app_settings import load_app_settings
 
-
 logger = logging.getLogger(__name__)
+
 
 class BrowserManager:
 
